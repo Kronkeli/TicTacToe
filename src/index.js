@@ -63,7 +63,7 @@ function renderTable() {
       cell.style.width = CELLSIZE;
       cell.style.textAlign = "center";
       cell.style.verticalAlign = "middle";
-      cell.style.backgroundColor = cell = row.getElementsByTagName("td")[j];
+      cell = row.getElementsByTagName("td")[j];
       cell.onclick = createClickHandler(cell, i, j);
       cell.innerHTML = boardData[i][j];
     }
