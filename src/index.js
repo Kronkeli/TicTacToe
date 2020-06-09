@@ -15,7 +15,7 @@ var playerTurn = 1;
 
 var BOARDSIZE = 5;
 var PADDING = "5px";
-var CELLSIZE = "30px";
+var CELLSIZE = "60px";
 
 var boord = document.getElementById("board");
 boord.style.border = "1px solid black";
@@ -47,7 +47,7 @@ var createClickHandler = function(cell, rowNum, colNum) {
       if (checkWinningCondition() === true) {
         alert("Player " + playerTurn + " won!");
       } else {
-        fixBoardSize();
+        // fixBoardSize();
         switchTurn();
       }
     }
@@ -62,7 +62,8 @@ function renderTable() {
       var cell = row.insertCell(j);
       cell.style.width = CELLSIZE;
       cell.style.textAlign = "center";
-      cell = row.getElementsByTagName("td")[j];
+      cell.style.verticalAlign = "middle";
+      cell.style.backgroundColor = cell = row.getElementsByTagName("td")[j];
       cell.onclick = createClickHandler(cell, i, j);
       cell.innerHTML = boardData[i][j];
     }
