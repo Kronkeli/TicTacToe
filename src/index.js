@@ -1,7 +1,7 @@
 import "./styles.css";
 
 document.getElementById("app").innerHTML = `
-  <h1>Ebins tic tac an toe!</h1>
+  <h1>Ebin tic tac toe!</h1>
   <p id="turnIndicator">
   First to reach 5 in a row wins!
   </p>
@@ -13,7 +13,7 @@ document.getElementById("app").innerHTML = `
 var boardData = [];
 var playerTurn = 1;
 
-var BOARDSIZE = 5;
+var BOARDSIZE = 8;
 var PADDING = "5px";
 var CELLSIZE = "30px";
 
@@ -45,9 +45,7 @@ var createClickHandler = function(cell, rowNum, colNum) {
       if (checkWinningCondition() === true) {
         alert("Player " + playerTurn + " won!");
       } else {
-        if (boardTooSmall() === true) {
-          console.log("on liian pieni");
-        }
+        fixBoardSize();
         switchTurn();
       }
     }
@@ -137,7 +135,6 @@ function checkWinVertical() {
 }
 
 function checkWinDiagonal1() {
-  // Tarkastetaan diagonaalisesti
   let j;
   var lastSign;
   var currentSign;
@@ -145,10 +142,8 @@ function checkWinDiagonal1() {
     j = 1;
     var counter = 1;
     lastSign = boardData[i][0];
-    //console.log("lastSign: " + lastSign);
-    while (j + i < boardData[0].length) {
+    while ((j + i < boardData.length) & (j < boardData[0].length)) {
       currentSign = boardData[i + j][j];
-      //console.log("currentSign: " + currentSign);
       if ((currentSign === lastSign) & (currentSign !== "")) {
         counter++;
       } else {
@@ -164,17 +159,95 @@ function checkWinDiagonal1() {
   return false;
 }
 
+function checkWinDiagonal2() {
+  let i;
+  var lastSign;
+  var currentSign;
+  for (let j = boardData[0].length - 1; j > 0; j--) {
+    i = 1;
+    var counter = 1;
+    lastSign = boardData[0][j];
+    while ((j + i < boardData[0].length) & (i < boardData.length)) {
+      currentSign = boardData[i][i + j];
+      if ((currentSign === lastSign) & (currentSign !== "")) {
+        counter++;
+      } else {
+        counter = 1;
+        lastSign = currentSign;
+      }
+      if (counter === 5) {
+        return true;
+      }
+      i++;
+    }
+  }
+  return false;
+}
+
+function checkWinDiagonal3() {
+  let j;
+  var lastSign;
+  var currentSign;
+  var counter;
+  for (let i = 0; i < boardData.length; i++) {
+    j = 1;
+    counter = 1;
+    lastSign = boardData[i][0];
+    while ((i - j > -1) & (j < boardData[0].length)) {
+      currentSign = boardData[i - j][j];
+      if ((currentSign === lastSign) & (currentSign !== "")) {
+        counter++;
+      } else {
+        counter = 1;
+        lastSign = currentSign;
+      }
+      if (counter === 5) {
+        return true;
+      }
+      j++;
+    }
+  }
+}
+
+function checkWinDiagonal4() {
+  let i;
+  var lastSign;
+  var currentSign;
+  var counter;
+  for (let j = boardData[0].length - 1; j > 0; j--) {
+    i = 1;
+    counter = 1;
+    lastSign = boardData[boardData.length - 1][j];
+    while ((i + j < boardData[0].length) & (i < boardData.length)) {
+      currentSign = boardData[boardData.length - 1 - i][j + i];
+      if ((currentSign === lastSign) & (currentSign !== "")) {
+        counter++;
+      } else {
+        counter = 1;
+        lastSign = currentSign;
+      }
+      if (counter === 5) {
+        return true;
+      }
+      i++;
+    }
+  }
+}
+
 function checkWinningCondition() {
   if (checkWinHorizontal() === true) {
-    console.log("horizontalWin");
     return true;
   } else if (checkWinVertical() === true) {
-    console.log("VerticalWin");
     return true;
-  } /* else if (checkWinDiagonal1() === true) {
-    console.log("diagonalWin");
+  } else if (checkWinDiagonal1() === true) {
     return true;
-  } */
+  } else if (checkWinDiagonal2() === true) {
+    return true;
+  } else if (checkWinDiagonal3() === true) {
+    return true;
+  } else if (checkWinDiagonal4() === true) {
+    return true;
+  }
   return false;
 }
 
@@ -184,18 +257,11 @@ function addTopRow() {
     rowData.push("");
   }
   boardData.unshift(rowData);
-  console.log("unshiftin jälkeen 2. ylin rivi datasta: ");
-  var MESSAGE;
-  for (let i = 0; i < boardData[1].length; i++) {
-    MESSAGE += " " + boardData[1][i];
-  }
-  console.log(MESSAGE);
 }
 
 function addBottomRow() {
   var rowData = [];
   for (let i = 0; i < boardData[0].length; i++) {
-    console.log("JUUUU");
     rowData.push("");
   }
   boardData.push(rowData);
@@ -251,7 +317,7 @@ function boardWidthTooSmall() {
   return widthSizeCheck;
 }
 
-function boardTooSmall() {
+function fixBoardSize() {
   var isSmall = true;
 
   while (isSmall === true) {
@@ -261,22 +327,18 @@ function boardTooSmall() {
 
     if (heightCheck.top === true) {
       isSmall = true;
-      console.log("ylhäältä pieni");
       addTopRow();
     }
     if (heightCheck.bottom === true) {
       isSmall = true;
-      console.log("alhaalta pieni");
       addBottomRow();
     }
     if (widthCheck.left === true) {
       isSmall = true;
-      console.log("vasemmalta pieni");
       addLeftColumn();
     }
     if (widthCheck.right === true) {
       isSmall = true;
-      console.log("oikealta pieni");
       addRightColumn();
     }
   }
