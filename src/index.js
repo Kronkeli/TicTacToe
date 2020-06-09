@@ -13,7 +13,7 @@ document.getElementById("app").innerHTML = `
 var boardData = [];
 var playerTurn = 1;
 
-var BOARDSIZE = 8;
+var BOARDSIZE = 5;
 var PADDING = "5px";
 var CELLSIZE = "30px";
 
