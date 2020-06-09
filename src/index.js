@@ -18,6 +18,8 @@ var PADDING = "5px";
 var CELLSIZE = "30px";
 
 var boord = document.getElementById("board");
+boord.style.border = "1px solid black";
+boord.style.borderCollapse = "collapse";
 boord.style.padding = PADDING;
 
 function initBoardData() {
@@ -36,9 +38,9 @@ var createClickHandler = function(cell, rowNum, colNum) {
     if (cell.innerHTML === "") {
       var sign;
       if (playerTurn === 1) {
-        sign = "X";
+        sign = "x";
       } else {
-        sign = "O";
+        sign = "o";
       }
       cell.innerHTML = sign;
       boardData[rowNum][colNum] = sign;
