@@ -33,11 +33,6 @@ boord.style.border = "1px solid black";
 boord.style.borderCollapse = "collapse";
 boord.style.padding = PADDING;
 
-var bar = document.getElementById("myBar");
-// bar.style.height = "24px";
-// bar.style.minWidth = "0%";
-// bar.style.width = "0%";
-
 function initBoardData() {
   for (let i = 0; i < BOARDSIZE; i++) {
     var rowData = [];
@@ -67,7 +62,7 @@ var createClickHandler = function(cell, rowNum, colNum) {
       if (checkWinningCondition() === true) {
         alert("Player " + playerTurn + " won!");
       } else {
-        // fixBoardSize();
+        //fixBoardSize();
         switchTurn();
       }
     }
@@ -85,11 +80,10 @@ function renderTable() {
       cell.style.verticalAlign = "middle";
       cell.style.fontFamily = "helvetica;";
       cell.style.fontSize = "30px";
-      cell.addEventListener("click", function() {
-        moveBar(i, j);
-      });
-      cell.onclick = createClickHandler(cell, i, j);
 
+      cell.onclick = createClickHandler(cell, i, j);
+      //cell.addEventListener("click", function() {return moveBar(i, j)});
+      cell.addEventListener("click", moveBar);
       cell.innerHTML = boardData[i][j];
     }
   }
@@ -110,26 +104,28 @@ function switchTurn() {
   document.getElementById("turnIndicator").innerHTML = message;
 }
 
-function moveBar(rowNum, colNum) {
+function moveBar(/* rowNum, colNum */) {
   // Cell has to be empty!
-  if (boardData[rowNum][colNum] === "") {
-    clearInterval(progressBarTimer);
-    var elem = document.getElementById("myBar");
-    var event = document.createEvent("Event");
-    event.initEvent("barCompleted", true, true);
-    elem.addEventListener("barCompleted", switchTurn);
-    var width = 1;
-    progressBarTimer = setInterval(frame, 10);
-    function frame() {
-      if (width >= 100) {
-        elem.dispatchEvent(event);
-        clearInterval(progressBarTimer);
-      } else {
-        width++;
-        elem.style.width = width + "%";
-      }
+  //console.log("ruutu on: " + boardData[rowNum][colNum]);
+  //if (boardData[rowNum][colNum] === "") {
+  clearInterval(progressBarTimer);
+  var elem = document.getElementById("myBar");
+  var event = document.createEvent("Event");
+  event.initEvent("barCompleted", true, true);
+  elem.addEventListener("barCompleted", switchTurn);
+  //elem.addEventListener("barCompleted", moveBar);
+  var width = 1;
+  progressBarTimer = setInterval(frame, 10);
+  function frame() {
+    if (width >= 100) {
+      elem.dispatchEvent(event);
+      clearInterval(progressBarTimer);
+    } else {
+      width++;
+      elem.style.width = width + "%";
     }
   }
+  //}
 }
 
 function clearBoard() {
