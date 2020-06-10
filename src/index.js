@@ -25,7 +25,7 @@ var playerTurn = 1;
 
 var BOARDSIZE = 5;
 var PADDING = "5px";
-var CELLSIZE = "60px";
+var CELLSIZE = "59px";
 var progressBarTimer;
 
 var boord = document.getElementById("board");
@@ -80,7 +80,6 @@ function renderTable() {
       cell.style.verticalAlign = "middle";
       cell.style.fontFamily = "helvetica;";
       cell.style.fontSize = "30px";
-
       cell.onclick = createClickHandler(cell, i, j);
       //cell.addEventListener("click", function() {return moveBar(i, j)});
       cell.addEventListener("click", moveBar);
@@ -390,5 +389,4 @@ function fixBoardSize() {
   }
   clearBoard();
   renderTable();
-  return false;
 }
