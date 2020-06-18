@@ -2,21 +2,20 @@ import "./styles.css";
 
 document.getElementById("app").innerHTML = `
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  
   <h1>Ebin tic tac toe!</h1>
   <p id="turnIndicator">
   First to reach 5 in a row wins!
   </p>
 
   <table id="board" border="1" padding="150px">
-  </table>
+    </table>
 
   <p>
   <div class="w3-light-grey" style ="width:300px" >
   <div id="myBar" class="w3-container w3-green" style="height:30px;width:1%"></div>
   </div>
   </p>
-
-  
 `;
 
 // BoardData to save the current state of Board
@@ -27,11 +26,28 @@ var BOARDSIZE = 5;
 var PADDING = "5px";
 var CELLSIZE = "59px";
 var progressBarTimer;
+var boord;
 
-var boord = document.getElementById("board");
-boord.style.border = "1px solid black";
-boord.style.borderCollapse = "collapse";
-boord.style.padding = PADDING;
+if (document.readyState !== "loading") {
+  console.log("Document read, executing");
+  initializeCode();
+} else {
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("Document ready, executing after a wait");
+  });
+  initializeCode();
+}
+
+function initializeCode() {
+  console.log("Initializing");
+  boord = document.getElementById("board");
+  boord.style.border = "1px solid black";
+  boord.style.borderCollapse = "collapse";
+  boord.style.padding = PADDING;
+
+  initBoardData();
+  renderTable();
+}
 
 function initBoardData() {
   for (let i = 0; i < BOARDSIZE; i++) {
@@ -43,33 +59,32 @@ function initBoardData() {
   }
 }
 
-var createClickHandler = function(cell, rowNum, colNum) {
-  return function() {
-    // Cell has to be empty!
-    if (cell.innerHTML === "") {
-      var sign;
-      var color;
-      if (playerTurn === 1) {
-        sign = "x";
-        color = "rgb(124, 252, 0)";
-      } else {
-        sign = "o";
-        color = "rgb(250, 128, 114)";
-      }
-      cell.innerHTML = sign;
-      cell.style.backgroundColor = color;
-      boardData[rowNum][colNum] = sign;
-      if (checkWinningCondition() === true) {
-        alert("Player " + playerTurn + " won!");
-      } else {
-        //fixBoardSize();
-        switchTurn();
-      }
-    }
-  };
-};
-
 function renderTable() {
+  var createClickHandler = function(cell, rowNum, colNum) {
+    return function() {
+      // Cell has to be empty!
+      if (cell.innerHTML === "") {
+        var sign;
+        var color;
+        if (playerTurn === 1) {
+          sign = "x";
+          color = "rgb(124, 252, 0)";
+        } else {
+          sign = "o";
+          color = "rgb(250, 128, 114)";
+        }
+        cell.innerHTML = sign;
+        cell.style.backgroundColor = color;
+        boardData[rowNum][colNum] = sign;
+        if (checkWinningCondition() === true) {
+          alert("Player " + playerTurn + " won!");
+        } else {
+          fixBoardSize();
+          switchTurn();
+        }
+      }
+    };
+  };
   for (let i = 0; i < boardData.length; i++) {
     var row = boord.insertRow(i);
     row.style.height = CELLSIZE;
@@ -84,13 +99,15 @@ function renderTable() {
       //cell.addEventListener("click", function() {return moveBar(i, j)});
       cell.addEventListener("click", moveBar);
       cell.innerHTML = boardData[i][j];
+      if (boardData[i][j] === "x") {
+        cell.style.backgroundColor = "rgb(124, 252, 0)";
+      } else if (boardData[i][j] === "o") {
+        cell.style.backgroundColor = "rgb(250, 128, 114)";
+      }
     }
   }
   return;
 }
-
-initBoardData();
-renderTable();
 
 function switchTurn() {
   playerTurn = (playerTurn % 2) + 1;
