@@ -13,7 +13,7 @@ document.getElementById("app").innerHTML = `
 
   <p>
   <div class="w3-light-grey" style ="width:300px" >
-  <div id="myBar" class="w3-container w3-green" style="height:30px;width:1%"></div>
+  <div id="myBar" class="w3-container w3-green" style="height:30px;width:10%"<></div>
   </div>
   </p>
 `;
@@ -130,8 +130,8 @@ function moveBar(/* rowNum, colNum */) {
   event.initEvent("barCompleted", true, true);
   elem.addEventListener("barCompleted", switchTurn);
   //elem.addEventListener("barCompleted", moveBar);
-  var width = 1;
-  progressBarTimer = setInterval(frame, 10);
+  var width = 10;
+  progressBarTimer = setInterval(frame, 50);
   function frame() {
     if (width >= 100) {
       elem.dispatchEvent(event);
