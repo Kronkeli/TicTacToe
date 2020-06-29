@@ -79,7 +79,7 @@ function renderTable() {
         if (checkWinningCondition() === true) {
           alert("Player " + playerTurn + " won!");
         } else {
-          fixBoardSize();
+          //  fixBoardSize();
           switchTurn();
         }
       }
